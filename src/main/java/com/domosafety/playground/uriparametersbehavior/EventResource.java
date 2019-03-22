@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by <a href="mailto:louis.gueye@domo-safety.com">Louis Gueye</a>.
+ * Created by <a href="mailto:louis.gueye@gmail.com">Louis Gueye</a>.
  */
 @RestController
 @RequestMapping("/events")

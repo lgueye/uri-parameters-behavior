@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.ZonedDateTime;
 
 /**
- * Created by <a href="mailto:louis.gueye@domo-safety.com">Louis Gueye</a>.
+ * Created by <a href="mailto:louis.gueye@gmail.com">Louis Gueye</a>.
  */
 @Data
 @NoArgsConstructor

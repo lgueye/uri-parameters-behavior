@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 /**
- * Created by <a href="mailto:louis.gueye@domo-safety.com">Louis Gueye</a>.
+ * Created by <a href="mailto:louis.gueye@gmail.com">Louis Gueye</a>.
  */
 @Configuration
 @Import(UriParametersBehaviorJsonConfiguration.class)

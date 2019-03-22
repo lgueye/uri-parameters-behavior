@@ -8,7 +8,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Created by <a href="mailto:louis.gueye@domo-safety.com">Louis Gueye</a>.
+ * Created by <a href="mailto:louis.gueye@gmail.com">Louis Gueye</a>.
  */
 @Configuration
 @Import(UriParametersBehaviorJsonConfiguration.class)

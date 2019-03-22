@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 /**
- * Created by <a href="mailto:louis.gueye@domo-safety.com">Louis Gueye</a>.
+ * Created by <a href="mailto:louis.gueye@gmail.com">Louis Gueye</a>.
  */
 @Configuration
 public class UriParametersBehaviorJsonConfiguration {
