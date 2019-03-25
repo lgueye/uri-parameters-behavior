@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,13 +16,19 @@ import org.springframework.web.client.RestTemplate;
 public class UriParametersBehaviorWebClientConfiguration {
 
     @Bean
-    public RestTemplate restTemplate(final ObjectMapper objectMapper) {
+    public RestTemplate restTemplate(final ObjectMapper objectMapper, final ClientHttpRequestInterceptor httpLogger) {
         final RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().forEach(converter -> {
             if (converter instanceof MappingJackson2HttpMessageConverter) {
                 ((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper);
             }
         });
+        restTemplate.getInterceptors().add(httpLogger);
         return restTemplate;
+    }
+
+    @Bean
+    public ClientHttpRequestInterceptor loginRequestInterceptor() {
+        return new ClientHttpLogger();
     }
 }
