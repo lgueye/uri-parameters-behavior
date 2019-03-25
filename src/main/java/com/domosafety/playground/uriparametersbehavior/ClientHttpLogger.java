@@ -6,9 +6,7 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -20,9 +18,7 @@ public class ClientHttpLogger implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         traceRequest(request, body);
-        ClientHttpResponse response = execution.execute(request, body);
-        traceResponse(response);
-        return response;
+        return execution.execute(request, body);
     }
 
     private void traceRequest(HttpRequest request, byte[] body) {
@@ -32,35 +28,6 @@ public class ClientHttpLogger implements ClientHttpRequestInterceptor {
         log.info("Headers     : {}", request.getHeaders());
         log.info("Request body: {}", new String(body, StandardCharsets.UTF_8));
         log.info("============================request end================================================");
-    }
-
-    private void traceResponse(ClientHttpResponse response) throws IOException {
-        BufferedReader bufferedReader = null;
-        InputStreamReader inputStreamReader = null;
-        try {
-            StringBuilder inputStringBuilder = new StringBuilder();
-            inputStreamReader = new InputStreamReader(response.getBody(), StandardCharsets.UTF_8);
-            bufferedReader = new BufferedReader(inputStreamReader);
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                inputStringBuilder.append(line);
-                inputStringBuilder.append('\n');
-                line = bufferedReader.readLine();
-            }
-            log.info("============================response begin=============================================");
-            log.info("Status code  : {}", response.getStatusCode());
-            log.info("Status text  : {}", response.getStatusText());
-            log.info("Headers      : {}", response.getHeaders());
-            log.info("Response body: {}", inputStringBuilder.toString());
-            log.info("============================response end===============================================");
-        } finally {
-            if (inputStreamReader != null) {
-                inputStreamReader.close();
-            }
-            if (bufferedReader != null) {
-                bufferedReader.close();
-            }
-        }
     }
 
 }

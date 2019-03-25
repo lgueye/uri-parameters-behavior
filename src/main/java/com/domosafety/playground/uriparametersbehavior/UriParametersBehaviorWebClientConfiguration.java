@@ -16,17 +16,17 @@ import org.springframework.web.client.RestTemplate;
 public class UriParametersBehaviorWebClientConfiguration {
 
     @Bean
-    public RestTemplate restTemplate(final ObjectMapper objectMapper, final ClientHttpRequestInterceptor httpLogger) {
+    public RestTemplate restTemplate(final ObjectMapper objectMapper, final ClientHttpRequestInterceptor clientHttpLogger) {
         final RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().stream() //
                 .filter(converter -> converter instanceof MappingJackson2HttpMessageConverter) //
                 .forEach(converter -> ((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper));
-        restTemplate.getInterceptors().add(httpLogger);
+        restTemplate.getInterceptors().add(clientHttpLogger);
         return restTemplate;
     }
 
     @Bean
-    public ClientHttpRequestInterceptor loginRequestInterceptor() {
+    public ClientHttpRequestInterceptor clientHttpLogger() {
         return new ClientHttpLogger();
     }
 }

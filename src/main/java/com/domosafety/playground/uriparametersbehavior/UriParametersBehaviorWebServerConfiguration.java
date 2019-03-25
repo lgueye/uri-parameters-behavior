@@ -23,7 +23,6 @@ public class UriParametersBehaviorWebServerConfiguration implements WebMvcConfig
         this.objectMapper = objectMapper;
     }
 
-
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.stream() //

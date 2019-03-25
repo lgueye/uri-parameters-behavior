@@ -18,6 +18,8 @@ import java.net.URI;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -45,16 +47,21 @@ public class UriParametersBehaviorApplicationTests {
 		final String value = "foo#bar@quizz+foo-bazz//quir.";
 		final Instant now = Instant.now();
 		final ZonedDateTime timestamp = ZonedDateTime.ofInstant(now, ZoneId.of("+02:00"));
+		final Map<String, String> params = new HashMap<>();
+		params.put("id", id);
+		params.put("device", device);
+		params.put("phoneNumber", phoneNumber);
+		params.put("timestamp", timestamp.toString());
+		params.put("value", value);
+		final MultiValueMap<String, String> paramTemplates = new LinkedMultiValueMap<>();
+		paramTemplates.add("id", "{id}");
+		paramTemplates.add("device", "{device}");
+		paramTemplates.add("phoneNumber", "{phoneNumber}");
+		paramTemplates.add("timestamp", "{timestamp}");
+		paramTemplates.add("value", "{value}");
 
-		final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("id", id);
-		params.add("device", device);
-		params.add("phoneNumber", phoneNumber);
-		params.add("timestamp", timestamp.toString());
-		params.add("value", value);
-
-		final URI uri = UriComponentsBuilder.fromHttpUrl("http://localhost").port(port).path("/events").queryParams(params).build().toUri();
-		final Event expected = Event.builder().device(device).id(id).phoneNumber(phoneNumber).value(value).timestamp(timestamp).build();
+		final URI uri = UriComponentsBuilder.fromHttpUrl("http://localhost").port(port).path("/events").queryParams(paramTemplates).encode().buildAndExpand(params).toUri();
+		final Event expected = Event.builder().device(device).id(id).phoneNumber(phoneNumber).value(value).timestamp(ZonedDateTime.ofInstant(now, ZoneId.of("UTC"))).build();
 
 		// When
 		final Event actual = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(new HttpHeaders()), Event.class).getBody();
