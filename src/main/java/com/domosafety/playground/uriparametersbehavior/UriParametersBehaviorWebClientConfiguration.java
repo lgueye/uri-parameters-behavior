@@ -18,11 +18,9 @@ public class UriParametersBehaviorWebClientConfiguration {
     @Bean
     public RestTemplate restTemplate(final ObjectMapper objectMapper, final ClientHttpRequestInterceptor httpLogger) {
         final RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().forEach(converter -> {
-            if (converter instanceof MappingJackson2HttpMessageConverter) {
-                ((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper);
-            }
-        });
+        restTemplate.getMessageConverters().stream() //
+                .filter(converter -> converter instanceof MappingJackson2HttpMessageConverter) //
+                .forEach(converter -> ((MappingJackson2HttpMessageConverter) converter).setObjectMapper(objectMapper));
         restTemplate.getInterceptors().add(httpLogger);
         return restTemplate;
     }
